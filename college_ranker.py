@@ -8,6 +8,9 @@ Working on adjusting it so all information about schools is taken from a CSV fil
 Made for APCSP Exam 2021
     Updating with new coding knowledge for fun
 """
+import csv
+
+CSV_FILENAME = "college_scores.csv"
 
 #lists
 sch_list= []
@@ -24,7 +27,7 @@ honors_list = []
 score_list = []
 
 
-num = 0
+
 
 
 #Function for multiplying score to be out of 100
@@ -59,8 +62,23 @@ def toString(scores, schools, g):
                 h = f
         print("|"+str(h)+ "." + " "*(4-len(str(h))),"|"+ str(schools[f])," "*(21-len(str(schools[f]))),"|"+str(scores[f])," "*(5-len(str(scores[f])))+"|")
 
+#To CSV File
+def toCSV(scores, schools, g):
+    fields = ["School", "Score"]
+    rows = []
+    for f in range (g):
+        rows.append([schools[f], scores[f]])
+
+    with open(CSV_FILENAME, 'w') as file:
+        csvwriter = csv.writer(file)
+        csvwriter.writerow(fields)
+        csvwriter.writerows(rows)
+        
 
 def main():
+    num = 0
+    
+    
     name = input("Enter your name: ")
 
 
@@ -489,7 +507,9 @@ def main():
 
 
     toString(score_list, sch_list, counter)
+    toCSV(score_list, sch_list, counter)
 
+    print("Scores have also been written to a file named:", CSV_FILENAME)
 
 
 if __name__ == "__main__":
